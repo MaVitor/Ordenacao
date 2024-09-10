@@ -1,43 +1,69 @@
 #include "ordenacao.hpp"
 
-/* TODO: Implementar função */
-bool ordenado(int a[],  unsigned int t){
-    return false;
+bool ordenado(int A[], unsigned int t)
+{
+  for (int i = 0; i < t - 1; i++)
+  {
+    if (A[i] > A[i + 1])
+      return false;
+  }
+  return true;
 }
 
-/* TODO: Implementar função */
-void selecao(int a[], unsigned int t){
+void selecao(int A[], unsigned int t)
+{
+  int i, j, min, aux;
+  for (i = 0; i < (t - 1); i++)
+  {
+    min = i;
+    for (j = (i + 1); j < t; j++)
+    {
+      if (A[j] < A[min])
+        min = j;
+    }
+    if (A[i] != A[min])
+    {
+      aux = A[i];
+      A[i] = A[min];
+      A[min] = aux;
+    }
+  }
 }
 
-/* TODO: Implementar função */
-void insercao(int a[], unsigned int t){
+void insercao(int A[], unsigned int t)
+{
+  for (unsigned int i = 1; i < t; i++)
+  {
+    int chave = A[i];
+    int j = i - 1;
+
+    while (j >= 0 && A[j] > chave)
+    {
+      A[j + 1] = A[j];
+      j--;
+    }
+    A[j + 1] = chave;
+  }
 }
 
-/* TODO: Implementar função */
 void merge(int a[], int i1, int j1, int i2, int j2)
 {
-  int *temp = new int[j2 - i1 + 1]; // Simplificando o cálculo do tamanho
+  int *temp = new int[j2 - i1 + 1];
   int i = i1, j = i2, k = 0;
-
-  // Intercala os dois subarrays
   while (i <= j1 && j <= j2)
   {
-    if (a[i] <= a[j]) // Alteração para garantir a estabilidade
+    if (a[i] <= a[j])
       temp[k++] = a[i++];
     else
       temp[k++] = a[j++];
   }
-
-  // Copia os elementos restantes
   while (i <= j1)
     temp[k++] = a[i++];
   while (j <= j2)
     temp[k++] = a[j++];
 
-  // Copia de volta para o array original
   for (i = i1, k = 0; i <= j2; i++, k++)
     a[i] = temp[k];
-
   delete[] temp;
 };
 
@@ -46,10 +72,8 @@ void merge_sort(int a[], int primeiro, int ultimo)
   if (primeiro < ultimo)
   {
     int meio = (primeiro + ultimo) / 2;
-    // Ordena recursivamente as duas metades
     merge_sort(a, primeiro, meio);
     merge_sort(a, meio + 1, ultimo);
-    // Mescla as duas metades ordenadas
     merge(a, primeiro, meio, meio + 1, ultimo);
   }
 };
